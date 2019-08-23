@@ -48,10 +48,11 @@ const ColorList = ({ colors, updateColors }) => {
     axiosWithAuth()
       .delete(`http://localhost:5000/api/colors/${colorToEdit.id}`)
       .then(res => {
+        console.log(res)
         updateColors(res.data);
         // history.push('/item-list');
       })
-      .catch(err => console.log(err.response));
+      // .catch(err => console.log(err.response));
   };
 
   return (
