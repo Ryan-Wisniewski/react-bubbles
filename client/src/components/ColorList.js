@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { axiosWithAuth } from "../_utils_/axiosWithAuth";
 
 const initialColor = {
   color: "",
-  code: { hex: "" }
+  code: { hex: "" },
+  id: ''
 };
 
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
+  // console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
@@ -18,13 +20,33 @@ const ColorList = ({ colors, updateColors }) => {
 
   const saveEdit = e => {
     e.preventDefault();
+    console.log('checkHere', colorToEdit)
     // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
+    // think about where will you get the id from... //color to edit has id
+    // where is is saved right now? //to colors which gets mapped.
+    axiosWithAuth()
+    .put('http://localhost:5000/api/colors/:id', colorToEdit)
+      .then(res => {
+        console.log('res', res)
+        // setColorToEdit(colors)
+        // setColorToEdit(colorToEdit)
+        updateColors(colorToEdit)
+        console.log('reeeeee',colorToEdit)
+      })
+      .catch(err => console.log(err.message))
   };
+  
+  
 
-  const deleteColor = color => {
-    // make a delete request to delete this color
+  const deleteColor = e => {
+    // e.preventDefault();
+    axiosWithAuth()
+      .delete(`http://localhost:5000/api/colors/:id`)
+      .then(res => {
+        updateColors(res.data);
+        // history.push('/item-list');
+      })
+      .catch(err => console.log(err.response));
   };
 
   return (
