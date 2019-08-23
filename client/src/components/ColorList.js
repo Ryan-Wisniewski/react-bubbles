@@ -42,19 +42,25 @@ const ColorList = ({ colors, updateColors }) => {
 
   const deleteColor = e => {
     // e.preventDefault();
-    // const item = colors.find(
-    //   thing => thing.id === colorToEdit.id
+    // const item = colors.find( thing =>
+    //   console.log(thing.id)
     // )
+    // console.log(item)
+    // if(colorToEdit.id === colorToEdit.id){
+      console.log('TRYDIS', e)
     axiosWithAuth()
       .delete(`http://localhost:5000/api/colors/${colorToEdit.id}`)
       .then(res => {
         console.log(res)
-        updateColors(res.data);
-        // history.push('/item-list');
+        //filter here
+        const deleteColor = colors.filter(id => id.id !== e.id)
+        console.log('SCREEEEEEEE',deleteColor ,e)
+        updateColors(deleteColor)
+        
       })
       // .catch(err => console.log(err.response));
   };
-
+// }
   return (
     <div className="colors-wrap">
       <p>colors</p>
